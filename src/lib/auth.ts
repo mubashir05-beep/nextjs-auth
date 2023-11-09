@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
         email: {
           label: "Email",
           type: "email",
-          placeholder: "demo@gmail.com",
+          placeholder: "demo@demo.com",
         },
         password: { label: "Password", type: "password" },
       },
