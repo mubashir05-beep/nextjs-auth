@@ -5,6 +5,7 @@ import { db } from "./db";
 import { compare } from "bcrypt";
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
+  secret:process.env.NEXTAUTH_SESSION,
   session: {
     strategy: "jwt",
   },
@@ -45,6 +46,29 @@ export const authOptions: NextAuthOptions = {
           email: existingUser?.email,
         };
       },
+      
     }),
   ],
+  callbacks:{
+    async jwt({ token, user,}) {
+      if(user){
+        return{
+          ...token,
+          username:user.username
+        }
+      }
+      return token
+    },
+    async session({ session, user, token }) {
+      return{
+        ...session,
+        user:{
+          ...session.user,
+          username:token.username
+        }
+      }
+  
+    }
+  }
+ 
 };
